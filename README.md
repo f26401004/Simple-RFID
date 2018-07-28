@@ -1,4 +1,4 @@
-# Simple-RFIF
+# Simple-RFID
 * RFID Reader : Synnix CL-2000 0
 * Plugin: pcsc-sharp.dll
 * Language: C#

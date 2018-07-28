@@ -30,6 +30,8 @@ namespace RFID_ReaderGUI
 
         private void button_close_Click(object sender, EventArgs e)
         {
+            _reader.Enabled = false;
+            _reader.Dispose();
             Close();
         }
 

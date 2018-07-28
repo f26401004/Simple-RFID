@@ -26,7 +26,6 @@ namespace RFID_ReaderGUI
                 }
             }
         }
-
         // the hexadecimal code to control the LED.
         private byte[] Led_Blue_On = new byte[] { 0xFF, 0xE1, 0x02, 0x01, 0x0C, 0xA0, 0xFC, 0x10, 0xA0, 0xFD, 0x04, 0xA0, 0xFE, 0x04, 0xA0, 0xFF, 0x04 };
         //private byte[] Led_Blue_Blink = new byte[] { 0xFF, 0xE1, 0x02, 0x01, 0x0C, 0xA0, 0xFC, 0x18, 0xA0, 0xFD, 0x04, 0xA0, 0xFE, 0x04, 0xA0, 0xFF, 0x04 };
@@ -70,11 +69,17 @@ namespace RFID_ReaderGUI
             // initialize the timer
             _timer = new System.Timers.Timer();
             _timer.Interval = 50;
-            _timer.Elapsed += _timer_Elapsed;
+            _timer.Elapsed += _timerElapsed;
             
         }
+        public void Dispose()
+        {
+            _context.Release();
+            _context.Dispose();
 
-        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        }
+
+        private void _timerElapsed(object _sender, System.Timers.ElapsedEventArgs _e)
         {
             // syncronized the detect code.
             lock (locker)
@@ -115,9 +120,7 @@ namespace RFID_ReaderGUI
                 {
                     Console.WriteLine(ex.Message);
                 }
-
             }
-
         }
 
         public static bool CheckError(SCardError _error)
@@ -198,7 +201,6 @@ namespace RFID_ReaderGUI
                 {
                     throw new PCSCException(_error);
                 }
-
                 byte[] _pbRecvBuffer = new byte[256];
                 // use the hexadecimal code to control the LED.
                 _error = _reader.Control(IOCTL_SCL2000_CTL, _name, ref _pbRecvBuffer);
